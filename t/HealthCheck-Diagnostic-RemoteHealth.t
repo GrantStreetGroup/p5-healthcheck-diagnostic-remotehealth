@@ -29,12 +29,12 @@ my $hc = HealthCheck::Diagnostic::RemoteHealth->new(
 my $mock_web = mock_web_request();
 my $res      = $hc->check;
 
-is($res, {
+is $res, {
     status  => 'OK',
     id      => 'remotehealth',
     label   => 'RemoteHealth',
     results => [ { status => 'OK', info => 'Ok!' } ],
-}, 'Expected OK HealthCheck from 200 HTTP Response.');
+}, 'Expected OK HealthCheck from 200 HTTP Response.';
 
 $mock_web = mock_web_request(code => 503);
 $res      = $hc->check;
