@@ -4,7 +4,7 @@ HealthCheck::Diagnostic::RemoteHealth - Get results from an HTTP HealthCheck
 
 # VERSION
 
-version v0.1.0
+version v0.1.1
 
 # SYNOPSIS
 
