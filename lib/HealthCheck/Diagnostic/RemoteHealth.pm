@@ -31,15 +31,15 @@ sub run {
     # Throws away the HTTP status check if OK,
     # since it's implied to be successful
     # if it retrieves the encoded JSON object.
-    return $result->{results}->[1]
-        if @{$result->{results} || []} == 2
+    return { results => [ $result->{results}->[1], $result->{results}->[2] ] }
+        if @{$result->{results} || []} == 3
         and $result->{results}->[0]->{status} eq 'OK';
     return $result;
 }
 
 # Checking for content regex from JSON seems unnecessary, so this has been
 # repurposed to return the decoded JSON object.
-sub check_content {
+sub _check_content {
     my ($self, $response) = @_;
 
     local $@;
@@ -50,7 +50,7 @@ sub check_content {
         data   => $response->content,
     } if $@ or ref($remote_result) ne 'HASH';
 
-    return { results => [ $remote_result ] };
+    return $remote_result;
 }
 
 1;
