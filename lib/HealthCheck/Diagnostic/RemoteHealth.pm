@@ -31,9 +31,10 @@ sub run {
     # Throws away the HTTP status check if OK,
     # since it's implied to be successful
     # if it retrieves the encoded JSON object.
-    return { results => [ $result->{results}->[1], $result->{results}->[2] ] }
-        if @{$result->{results} || []} == 3
-        and $result->{results}->[0]->{status} eq 'OK';
+    if (($result->{results}->[0]->{status} || '') eq 'OK' ) {
+        shift @{ $result->{results} };
+        return { results => $result->{results} };
+    }
     return $result;
 }
 
