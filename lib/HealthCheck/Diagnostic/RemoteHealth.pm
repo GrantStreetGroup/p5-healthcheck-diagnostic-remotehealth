@@ -33,6 +33,7 @@ sub run {
     # if it retrieves the encoded JSON object.
     if (($result->{results}->[0]->{status} || '') eq 'OK' ) {
         shift @{ $result->{results} };
+        # info key is removed since it is redundant with the result-level info keys
         return { results => $result->{results} };
     }
     return $result;
@@ -40,7 +41,7 @@ sub run {
 
 # Checking for content regex from JSON seems unnecessary, so this has been
 # repurposed to return the decoded JSON object.
-sub _check_content {
+sub check_content {
     my ($self, $response) = @_;
 
     local $@;
