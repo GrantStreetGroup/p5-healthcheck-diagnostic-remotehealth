@@ -31,9 +31,11 @@ sub run {
     # Throws away the HTTP status check if OK,
     # since it's implied to be successful
     # if it retrieves the encoded JSON object.
-    return $result->{results}->[1]
-        if @{$result->{results} || []} == 2
-        and $result->{results}->[0]->{status} eq 'OK';
+    if (($result->{results}->[0]->{status} || '') eq 'OK' ) {
+        shift @{ $result->{results} };
+        # info key is removed since it is redundant with the result-level info keys
+        return { results => $result->{results} };
+    }
     return $result;
 }
 
@@ -50,7 +52,7 @@ sub check_content {
         data   => $response->content,
     } if $@ or ref($remote_result) ne 'HASH';
 
-    return { results => [ $remote_result ] };
+    return $remote_result;
 }
 
 1;
